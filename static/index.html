@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stress Dost — Focus Lab</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-bar">
+      <div>
+        <p class="eyebrow">Stress Dost</p>
+        <h1>Neon Calm Studio</h1>
+        <p class="sub">Share your story, watch the interface breathe with you.</p>
+      </div>
+      <button id="hudToggle" class="icon-btn" title="Show control room">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main class="viewport">
+      <section class="stage active" id="stageIntro">
+        <div class="glass intro-card">
+          <h2>Drop every detail</h2>
+          <p>Your first dump anchors the entire journey. Type in everything that’s weighing you down.</p>
+          <label for="initialText" class="label">What’s on your mind today?</label>
+          <textarea id="initialText" rows="7" placeholder="Exams, friends, distractions, parental pressure, anything..."></textarea>
+          <div class="stage-hint" id="introHint"></div>
+          <button id="btnStart" class="btn primary">Launch Session</button>
+        </div>
+      </section>
+
+      <section class="stage" id="stageLoading">
+        <div class="loader-card">
+          <div class="gear gear-main"></div>
+          <div class="gear gear-shadow"></div>
+          <p id="loadingText">Calibrating vibes…</p>
+        </div>
+      </section>
+
+      <section class="stage" id="stageQA">
+        <div class="glass qa-card">
+          <div class="qa-meta" id="qMeta">domain: — | slot: —</div>
+          <div class="qa-question" id="questionText">Your next question will bloom here.</div>
+          <div class="stage-hint" id="hintBox"></div>
+          <label for="answerInput" class="label">Your answer</label>
+          <textarea id="answerInput" rows="4" placeholder="Type a quick, honest answer..."></textarea>
+          <div class="row">
+            <button id="btnAnswer" class="btn primary" disabled>Submit Answer</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage" id="stagePopups">
+        <div class="glass pop-card">
+          <p class="eyebrow">Focus Pops</p>
+          <h2>Popups are live</h2>
+          <p id="popupSummary">We’re releasing your personalized pulses now. Watch the center top.</p>
+          <div class="test-card" id="testCard">
+            <div class="test-head">
+              <div>
+                <div class="q-count" id="questionCounter">Questions —</div>
+                <div class="q-subject" id="questionSubject">—</div>
+              </div>
+              <div class="mutate-badge pill subtle" id="mutateBadge" style="display:none;">Mutated</div>
+              <div class="test-actions">
+                <button id="btnReloadQuestions" class="btn ghost small">Reload set</button>
+                <button id="btnSubmitQuestion" class="btn primary small">Submit</button>
+              </div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-track">
+                <div class="progress-bar" id="questionProgress"></div>
+              </div>
+              <div class="pill subtle" id="scoreMeta">Score: 0</div>
+            </div>
+            <div class="info-banner">
+              <span class="bell">🔔</span>
+              <span>Mark the most appropriate option. Only one option is correct.</span>
+            </div>
+            <div class="question-body">
+              <div class="question-stem" id="questionStem">Questions will appear here with options.</div>
+              <div class="options-grid" id="questionOptions"></div>
+              <div class="integer-panel" id="integerPanel">
+                <input id="integerInput" type="text" placeholder="Enter your answer here..." />
+                <div class="keypad" id="keypad">
+                  <button type="button" data-key="1">1</button>
+                  <button type="button" data-key="2">2</button>
+                  <button type="button" data-key="3">3</button>
+                  <button type="button" data-key="4">4</button>
+                  <button type="button" data-key="5">5</button>
+                  <button type="button" data-key="6">6</button>
+                  <button type="button" data-key="7">7</button>
+                  <button type="button" data-key="8">8</button>
+                  <button type="button" data-key="9">9</button>
+                  <button type="button" data-key=".">.</button>
+                  <button type="button" data-key="0">0</button>
+                  <button type="button" data-key="-">-</button>
+                </div>
+                <div class="keypad-actions">
+                  <button type="button" class="btn danger small" id="btnClearInteger">Clear all</button>
+                  <button type="button" class="btn success small" id="btnBackspace">Backspace</button>
+                </div>
+              </div>
+            </div>
+            <div class="stage-hint" id="testHint"></div>
+            <div class="row">
+              <button id="btnPrevQuestion" class="btn ghost">Previous</button>
+              <button id="btnNextQuestion" class="btn primary">Next</button>
+            </div>
+          </div>
+          <button id="btnRestart" class="btn ghost">Start Fresh</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <aside class="hud-panel" id="hudPanel">
+    <div class="hud-head">
+      <div>
+        <p class="eyebrow">Control Room</p>
+        <h3>Live Session Details</h3>
+      </div>
+      <button id="btnCloseHud" class="icon-btn small" aria-label="Close panel">×</button>
+    </div>
+    <div class="hud-status">
+      <span class="pill" id="wsStatus">WS: connecting…</span>
+      <span class="pill" id="sessionStatus">session: none</span>
+    </div>
+    <div class="hud-grid">
+      <div>
+        <label class="label">Session ID</label>
+        <div class="mono" id="sessionId">—</div>
+      </div>
+      <div>
+        <label class="label">Active Domains</label>
+        <div class="mono" id="activeDomains">—</div>
+      </div>
+    </div>
+    <div class="hud-actions">
+      <button id="btnReset" class="btn ghost">Reset Session</button>
+    </div>
+    <div class="hud-section">
+      <div class="section-title">Trace Log</div>
+      <pre id="logBox"></pre>
+    </div>
+    <div class="hud-section">
+      <div class="section-title">Popup Console</div>
+      <div class="console" id="popupConsole"></div>
+    </div>
+  </aside>
+
+  <div id="popupOverlay" class="popup-overlay"></div>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
